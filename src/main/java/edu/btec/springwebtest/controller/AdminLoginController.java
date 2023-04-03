@@ -46,6 +46,6 @@ public class AdminLoginController {
 			return new ModelAndView("redirect:" + ruri);
 		}
 		
-		return new ModelAndView("forward:/admin/categories", model);
+		return new ModelAndView("forward:/admin/dashboard", model);
 	}
 }

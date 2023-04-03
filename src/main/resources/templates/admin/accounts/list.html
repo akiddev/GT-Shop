@@ -1,22 +1,151 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{admin/dashboardLayout.html}">
 
 <head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'Poppins', sans-serif;
+		}
 
+		body {
+			min-height: 100vh;
+			background: white;
+		}
+
+		.navigation {
+			position: fixed;
+			width: 60px;
+			height: 100%;
+			background: #3c8dbc;
+			transition: 0.5s;
+			overflow: hidden;
+		}
+
+		.navigation:hover {
+			width: 300px;
+		}
+
+		.navigation ul {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+		}
+
+		.navigation li {
+			position: relative;
+			width: 100%;
+			list-style: none;
+		}
+
+		.navigation ul li:hover {
+			background: #367fa9;
+		}
+
+		.navigation ul li a {
+			position: relative;
+			display: flex;
+			width: 100%;
+			text-decoration: none;
+			color: white;
+		}
+
+		.navigation ul li a .icon {
+			position: relative;
+			display: block;
+			min-width: 60px;
+			height: 60px;
+			line-height: 60px;
+			text-align: center;
+		}
+
+		.navigation ul li a .icon .fas {
+			font-size: 24px;
+		}
+
+		.navigation ul li a .title {
+			position: relative;
+			display: block;
+			padding: 0 10px;
+			height: 60px;
+			line-height: 60px;
+			text-align: start;
+			white-space: nowrap;
+		}
+		.left-column {
+			width: 28%;
+			float: left;
+		}
+
+		.right-column {
+			width: 72%;
+			float: right;
+		}
+	</style>
 </head>
 
 <body>
 	<section class="row" layout:fragment="content">
-			<div class="col mt-4 ">
+		<div class="left-column">
+			<div class="navigation" th:fragment="dashboard">
+				<ul>
+					<li>
+						<a th:href="@{/admin/dashboard}">
+							<span class="icon "><i class="fas fa-home"></i></span>
+							<span class="title"> Home </span>
+						</a>
+					</li>
+					<li>
+						<a th:href="@{/admin/accounts}">
+							<span class="icon"><i class="fas fa-users"></i></span>
+							<span class="title"> Manage User </span>
+						</a>
+					</li>
+					<li>
+						<a th:href="@{/admin/categories}">
+							<span class="icon"><i class="fas fa-align-right"></i></span>
+							<span class="title"> Manage Category </span>
+						</a>
+					</li>
+					<li>
+						<a th:href="@{/admin/products}">
+							<span class="icon"><i class="fas fa-list"></i></span>
+							<span class="title"> Manage Product </span>
+						</a>
+					</li>
+					<li>
+						<a th:href="@{/admin/orders}">
+							<span class="icon"><i class="fas fa-cart-arrow-down"></i></span>
+							<span class="title"> Manage Order </span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="icon"><i class="fas fa-id-card"></i></span>
+							<span class="title"> Manage Profile </span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+							<span class="title"> Log out </span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="right-column">
+			<div class="row">
 				<div class="card">
 					<div class="card-header">
 						<h2>List Of Accounts</h2>
 					</div>
 					<div class="card-body">
-						<div th:if="${message != null}" class="alert alert-primary"
-							role="alert">
+						<div th:if="${message != null}" class="alert alert-primary" role="alert">
 							<i>[[${message}]]</i>
 						</div>
 						<div>
@@ -37,13 +166,13 @@
 									<td>[[${account.username}]]</td>
 									<td th:text="${account.password}"></td>
 									<td>
-									<a th:href="@{'/admin/accounts/view/' + ${account.username}}"
-										class="btn btn-outline-info"><i class="fas fa-info"></i></a> 
-									<a th:href="@{'/admin/accounts/edit/' + ${account.username}}"
-										class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
-									<a th:data-id="${account.username}" th:data-name="${account.username}"
-									onclick="showConfirmModalDialog(this.getAttribute('data-id'), this.getAttribute('data-name'))"
-									class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></a>
+										<a th:href="@{'/admin/accounts/view/' + ${account.username}}"
+											class="btn btn-outline-info"><i class="fas fa-info"></i></a>
+										<a th:href="@{'/admin/accounts/edit/' + ${account.username}}"
+											class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
+										<a th:data-id="${account.username}" th:data-name="${account.username}"
+											onclick="showConfirmModalDialog(this.getAttribute('data-id'), this.getAttribute('data-name'))"
+											class="btn btn-outline-danger"><i class="fas fa-trash-alt"></i></a>
 									</td>
 								</tr>
 
@@ -55,58 +184,58 @@
 							</tbody>
 						</table>
 						<script>
-						function showConfirmModalDialog(id, name) {
-							$('#productName').text(name);
-							$('#yesOption').attr('href',
+							function showConfirmModalDialog(id, name) {
+								$('#productName').text(name);
+								$('#yesOption').attr('href',
 									'/admin/accounts/delete/' + id);
-							$('#confirmationId').modal('show');
-						}
-					</script>
-					<!-- Modal -->
-					<div class="modal fade" id="confirmationId" tabindex="-1"
-						role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title">Confirmation</h5>
-									<button type="button" class="close" data-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									Do you want to delete "<span id="productName"></span>"?
-								</div>
-								<div class="modal-footer">
-									<a id="yesOption" type="button" class="btn btn-danger">Yes</a>
-									<button type="button" class="btn btn-secondary"
-										data-dismiss="modal">No</button>
+								$('#confirmationId').modal('show');
+							}
+						</script>
+						<!-- Modal -->
+						<div class="modal fade" id="confirmationId" tabindex="-1" role="dialog"
+							aria-labelledby="modelTitleId" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Confirmation</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										Do you want to delete "<span id="productName"></span>"?
+									</div>
+									<div class="modal-footer">
+										<a id="yesOption" type="button" class="btn btn-danger">Yes</a>
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
 
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					</div>
 					<div class="card-footer text-muted">
 						<nav aria-label="Page navigation">
 							<ul class="pagination justify-content-center">
-								<li class="page-item disabled"><a class="page-link"
-									href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+								<li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
 										<span class="sr-only">Previous</span>
-								</a></li>
+									</a></li>
 								<li class="page-item active"><a class="page-link" href="#">1</a></li>
 								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#"
-									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+								<li class="page-item"><a class="page-link" href="#" aria-label="Next"> <span
+											aria-hidden="true">&raquo;</span>
 										<span class="sr-only">Next</span>
-								</a></li>
+									</a></li>
 							</ul>
 						</nav>
 					</div>
 				</div>
 
 			</div>
-		</section>
+		</div>
+
+	</section>
 </body>
 
 </html>

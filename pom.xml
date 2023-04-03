@@ -7,10 +7,10 @@
 		<version>3.0.4</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>project.bestore.edu</groupId>
-	<artifactId>bestore</artifactId>
+	<groupId>project.gtshop</groupId>
+	<artifactId>gtshop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>goyabshop</name>
+	<name>gtshop</name>
 	<description>Spring Boot Project</description>
 	<properties>
 		<java.version>17</java.version>
